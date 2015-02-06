@@ -1,6 +1,5 @@
 #pragma strict
 
-
 public var health : float; 
 public var money : int;
 public var fadeInactivate : boolean;
@@ -14,9 +13,6 @@ function Start(){
 	health = 5.0;
 	money = 0;
 	fadeInactivate = false;
-	Debug.Log(lastsceneload);
-	Debug.Log(Application.loadedLevelName);
-
 		
 	switch (lastsceneload){
 		case "laboratoire" :
@@ -31,28 +27,34 @@ function Start(){
 			}
 		break;
 		case "level1_c":
-			Debug.Log("here");
 			if(Application.loadedLevelName == "level1_d"){
 				transform.position = Vector3(-3.68, -2.32, 2.45);
 			}
 			else if(Application.loadedLevelName == "level1"){
 				transform.position = Vector3(1.686393, -0.674112, 2.45);
 			}
+			else if(Application.loadedLevelName == "level1 gauche"){
+				transform.position = Vector3(2.05, -1.39, -1.57);
+			} 
 		break;
 		case "level1_d" :
+			if(Application.loadedLevelName == "level1_d_grotte"){
+				transform.position = Vector3(-2.561137, -1.164694, 0);
+			}
 			transform.position = Vector3(1.83, 0.12, 2.45);
 		break;
+		case "level1_d_grotte":
+			transform.position = Vector3(2.358721, -2.379415, 0);
+		break;
+		case "level1 gauche":
+			transform.position = Vector3(-1.89, 0.12, 2.45);
+		break;
 	}
-	
-	Debug.Log(transform.position);
-	
-	// set new spawn position when spike come from the boss's place
 }
 
 function OnCollisionEnter2D(col : Collision2D){
 	var player = GameObject.Find("Player");
-	Debug.Log(col.gameObject.name);
-		// ajouter les autres monstres...
+
 	if(col.gameObject.name == 'Ennemi_Left' || col.gameObject.name == 'Ennemi_Right'){
 		health--;
 		player.GetComponent(move).blink();
@@ -63,24 +65,15 @@ function OnCollisionEnter2D(col : Collision2D){
 		anim.GetComponent(Animator).enabled = true;
 		anim.GetComponent(Animator).speed =1 ;
 	}
-	else{
-
-	}
 	if(health <= 0){
 		Destroy(this.gameObject);
-		
 	}
 }
 
 function OnTriggerEnter2D(coll : Collider2D){
-	
-	// test
-	
 	var player = GameObject.Find("Player");
 	position = player.GetComponent(move).pos;
-	
-	Debug.Log(position);
-	
+
 	downstair += Time.deltaTime * 0.1;
 	
 	if(coll.gameObject.name != "Chemin" && coll.gameObject.name && "Coeur plein(Clone)" && coll.gameObject.name != "Pièce Mercure(Clone)" && coll.gameObject
@@ -99,63 +92,56 @@ function OnTriggerEnter2D(coll : Collider2D){
 
 	switch (coll.gameObject.name){
 		
+		case "ChauveSouris":
+			health -= 1;
+		break;
 		case "Coeur plein(Clone)" :
-			health = health + 0.5;
+			health += 0.5;
 			Destroy(coll.gameObject);
 		break;
 		case "Pièce Mercure(Clone)" :
-			money = money + 10;
+			money += 10;
 			Destroy(coll.gameObject);
 		break;
 		case "teleporteur_lab" :
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "level1");
-			Application.LoadLevel("laboratoire");
+			setTransition("level1", "laboratoire");
 		break;
 		case "gradientTop":
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "level1_c");
-			Application.LoadLevel("Level1");	
+			setTransition("level1_c", "Level1");
 		break;
 		case "teleporteur_level":
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "laboratoire");
-			Application.LoadLevel("Level1");
+			setTransition("laboratoire", "Level1");
 		break;
 		case "gradient" :
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "level1");
-		    Application.LoadLevel("Level1_c");
+			setTransition("level1", "Level1_c");
 		break;
 		case "gradientD":
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "level1_d");
-		    Application.LoadLevel("Level1_c");
+			setTransition("level1_d", "Level1_c");
+		break;
+		case "gradientLeft":
+			setTransition("level1_c", "level1 gauche");
 		break;
 		case "gradientRight":
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			PlayerPrefs.SetString("loadLevel", "level1_c");
-		    Application.LoadLevel("Level1_d");
+			setTransition("level1_c", "Level1_d");
+		break;
+		case "gradientGR":
+			setTransition("level1_d", "Level1_d_grotte");
+		break;
+		case "gradientGG":
+			setTransition("level1_d_grotte", "level1_d");
+		break;
+		case "gradientLG":
+			setTransition("level1 gauche", "Level1_c");
 		break;
 		case "Chemin" :
-			
 			if(position == 0 || position == 3){
-				//var j = Mathf.Lerp(transform.position.x, transform.position.x + 0.01, downstair);
 				transform.position.x += 0.02;
-				}
-				
+			}	
 			else{
 				transform.position.y += 0.02;
 			}
 		break;
 		case "red_layer":
-			
 			if(position == 1){
 				transform.position.y += 0.02;
 			}
@@ -163,12 +149,29 @@ function OnTriggerEnter2D(coll : Collider2D){
 				transform.position.y -= 0.02;
 			}
 		break;
-	
+	}	
+}
+
+function OnTriggerExit2D(objet : Collider2D){
+
+	var player = GameObject.Find("Player");
+	position = player.GetComponent(move).pos;
+
+	if(objet.gameObject.name == "Chemin"){
+		if(position == 0 || position == 3){
+			transform.position.x -= 0.02;
+		}
+		else{
+			transform.position.y -= 0.02;	
+		}
 	}
-	
-	
-	
-	
+}
+
+function setTransition(oldScene : String, NewSceneLoad : String){
+	fadeInactivate = true;
+	yield WaitForSeconds(2);
+	PlayerPrefs.SetString("loadLevel", oldScene);
+	Application.LoadLevel(NewSceneLoad);
 }
 
 
