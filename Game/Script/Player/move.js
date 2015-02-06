@@ -1,114 +1,12 @@
-﻿#pragma strict
-public var health : float; 
-private var loop : int;
+#pragma strict
 public var pos : int;
-public var money : int;
-public var fadeInactivate : boolean;
-
-
-
-function start(){
-	health  = 5.0;
-	loop = 0;
-	money = 0;
-	fadeInactivate = false;
-}
 
 private var move_or_not : boolean = true;
 
-function OnCollisionEnter2D(col : Collision2D){
-
-	Debug.Log(col.gameObject.name);
-		// ajouter les autres monstres...
-	if(col.gameObject.name == 'Ennemi_Left' || col.gameObject.name == 'Ennemi_Right'){
-		health--;
-		blink();
-	}
-	else if(col.gameObject.name == "cuve"){
-		PlayerPrefs.SetInt("active", 1);
-		var anim = GameObject.Find("cuve");
-		anim.GetComponent(Animator).enabled = true;
-		anim.GetComponent(Animator).speed =1 ;
-	}
-	else{
-
-	}
-	if(health <= 0){
-		Destroy(this.gameObject);
-		
-	}
-}
-
-function OnTriggerEnter2D(coll : Collider2D){
-
-	Debug.Log(coll.gameObject.name);
-
-	switch (coll.gameObject.name){
-		
-		case "Coeur plein(Clone)" :
-			health = health + 0.5;
-			Destroy(coll.gameObject);
-		break;
-		case "Pièce Mercure(Clone)" :
-			money = money + 10;
-			Destroy(coll.gameObject);
-		break;
-		case "teleporteur_lab" :
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			Application.LoadLevel("Laboratoire");
-		break;
-		case "teleporteur_level":
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			Application.LoadLevel("Level1");
-		break;
-		case "gradient" :
-			fadeInactivate = true;
-			yield WaitForSeconds(2);
-			//Application.LoadLevel("Level1");
-		break;
-		case "Chemin" :
-			if(pos == 0 || pos == 3){
-				var j = Mathf.Lerp(transform.position.x, transform.position.x + 0.01, 2.0);
-				Debug.Log(j);
-				transform.position.x += 0.02;
-				}
-				
-			else{
-				transform.position.y += 0.02;
-			}
-			
-		break;
-
-	}
-}
-
 function move(){
-    // deplacement gauche droite 
-    
-    var inputx : float = Input.GetAxis("Horizontal");
-	var inputy : float = Input.GetAxis("Vertical");
 	
-	if(inputx > 0){
-		inputx = 0.001;
-	}
-	else if(inputx < 0){
-		inputx = -0.001;
-	}
-	else{
-		inputx = 0;
-	}
-	
-	if(inputy > 0){
-		inputy = 0.001;
-	}
-	else if(inputy < 0){
-		inputy = -0.001;
-	}
-	else{
-		inputy = 0;
-	}
+	var inputx = Mathf.Clamp(Input.GetAxis("Horizontal"), -0.001, 0.001);
+	var inputy = Mathf.Clamp(Input.GetAxis("Vertical"), -0.001, 0.001);
 
     if(move_or_not){
     		
@@ -131,7 +29,6 @@ function move(){
 			}
 			else{
 				this.gameObject.rigidbody2D.velocity = Vector2.zero;
-				//this.gameObject.rigidbody2D.angularVelocity = Vector2.zero;
 			}
 			
     }
@@ -226,7 +123,6 @@ function Update () {
 
 }
 
- 
 function FixedUpdate()
    {
          if(rigidbody2D.velocity.magnitude > 1)
