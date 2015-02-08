@@ -1,11 +1,14 @@
-﻿public var x : boolean ;
+public var x : boolean ;
 var timer2 : float;
-var otherLight;
-var otherLight2;
+private var otherLight;
+private var otherLight2;
 
 var minIntensity : float;
 var maxIntensity : float;
 var intensity : float;
+
+// set the duration of the day & night 
+var DayNightDuration : int;
 
 function Start(){
 	x = PlayerPrefsX.GetBool("xvalue");
@@ -25,7 +28,7 @@ function ambiantLight(){
 
 	timer2 += Mathf.Clamp(Time.deltaTime, 0.0, 30.0);
 	
-	if(timer2 > 100){
+	if(timer2 > DayNightDuration){
 		x = !x;
 		timer2 = 0;
 		minIntensity = 0.0f;
@@ -43,23 +46,26 @@ function ambiantLight(){
 function Update () {
 	ambiantLight();
 	
-	otherLight = GameObject.Find('Point light 2');
-	otherLight2 = GameObject.Find('Point light');
 	
-	if(gameObject.light.intensity > 0.9){
-		if(otherLight){
-			otherLight.light.intensity = 0.0;
+	if(Application.loadedLevelName != "level1_d_grotte"){
+		otherLight = GameObject.Find('Point light 2');
+		otherLight2 = GameObject.Find('Point light');
+		
+		if(gameObject.light.intensity > 0.9){
+			if(otherLight){
+				otherLight.light.intensity = 0.0;
+			}
+			if(otherLight2){
+				otherLight2.light.intensity = 0.0;
+			}
 		}
-		if(otherLight2){
-			otherLight2.light.intensity = 0.0;
-		}
-	}
-	else{
-		if(otherLight){
-			otherLight.light.intensity = 3;
-		}
-		if(otherLight2){
-			otherLight2.light.intensity = 1.0;
+		else{
+			if(otherLight){
+				otherLight.light.intensity = 3;
+			}
+			if(otherLight2){
+				otherLight2.light.intensity = 1.0;
+			}
 		}
 	}	
 }
