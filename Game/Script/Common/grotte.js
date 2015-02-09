@@ -15,9 +15,10 @@ var timer : float;
 
 
 function Start () {
-	/* Only use for debugging the scene Level1_d */
-	PlayerPrefs.DeleteKey("bourasqueval");
-	PlayerPrefs.DeleteKey("setAnimation");
+	
+	
+	//PlayerPrefs.DeleteAll();
+	
 	
 	var finalS = PlayerPrefs.GetInt("FinalStep");
 	
@@ -25,9 +26,13 @@ function Start () {
 	Debug.Log("bourasque "+bourasque);
 	
 	if(bourasque == 1){
+		Destroy(GameObject.Find("ennemy container"));
+	}
+	
+	if(bourasque == 1 && finalS != 2){
 		midState();
 	}
-	else if(bourasque == 2){
+	else if(finalS == 2){
 		finalState();
 	}
 }
@@ -49,8 +54,6 @@ function level1D(){
 			}
 		}
 		
-		PlayerPrefs.SetInt("bourasqueval", 1);
-		
 		if(launchAnimation){
 		
 			if(!GameObject.Find("Cascade(Clone)")){
@@ -61,14 +64,14 @@ function level1D(){
 			smoke.GetComponent(ParticleSystem).enableEmission = true;
 			PlayerPrefs.SetInt("activationSpike", 2);
 						
-			if(destroyMountainCountdown < 10){
+			if(destroyMountainCountdown < 50){
 				destroyMountainCountdown += Time.deltaTime;
 			}
 			else{
 				var mountain = GameObject.Find("pierreBig");
 				
 				timer += Time.deltaTime;
-				//mountain.transform.position.z = Mathf.Lerp(2.52, 5.58, Time.deltaTime * 2);
+				mountain.transform.position.z = Mathf.Lerp(2.52, 5.58, timer);
 				Debug.Log(Mathf.Lerp(2.52, 5.58, timer));
 				
 				yield WaitForSeconds(2);
@@ -79,14 +82,16 @@ function level1D(){
 				
 				
 				if(!GameObject.Find("Cascade(Clone)")){
-					Instantiate(cascadeToInstantiate,Vector3(5.04487, -2.279894, 2.28), Quaternion.identity);
+					Instantiate(cascadeToInstantiate,Vector3(4.716, -1.507, 2.28), Quaternion.identity);
 				}
 				smoke.GetComponent(ParticleSystem).enableEmission = false;
 				PlayerPrefs.SetInt("activationSpike", 1);
-				PlayerPrefs.SetInt("bourasqueval", 2);
+				PlayerPrefs.SetInt("FinalStep", 2);
 				PlayerPrefs.SetInt("setAnimation", 0);
-				
 			}
+		}
+		else{
+			PlayerPrefs.SetInt("bourasqueval", 1);
 		}
 	}
 }
@@ -103,15 +108,18 @@ function midState(){
 }
 
 function finalState(){
+			
+	if(!GameObject.Find("Cascade(Clone)")){
+		
+		Instantiate(cascadeToInstantiate,Vector3(4.716, -1.507, 2.28), Quaternion.identity);
+	}
+	
 	Destroy(GameObject.FindWithTag("AfterCave"));
-	Destroy(GameObject.FindWithTag("arbreDestroy"));
+	Destroy(GameObject.FindWithTag("after"));
 	Destroy(GameObject.FindWithTag("Statut"));
 	Destroy(GameObject.Find("acces_grotte(Clone)"));
-				
-				
-	if(!GameObject.Find("Cascade(Clone)")){
-		Instantiate(cascadeToInstantiate,Vector3(5.04487, -2.279894, 2.28), Quaternion.identity);
-	}
+	Destroy(GameObject.Find("buisson conteneur"));
+	Destroy(GameObject.FindWithTag("Ennemy"));
 }
 
 
@@ -125,9 +133,10 @@ function Update () {
 	
 	if(Application.loadedLevelName == "level1_d"){
 			level1D();
+			
 	}
 	else if(Application.loadedLevelName == "level1_d_grotte"){
-		levelGrotte();
+			levelGrotte();
 	}
 }
 
