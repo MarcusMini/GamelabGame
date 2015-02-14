@@ -12,13 +12,12 @@ var randomMax : float;
 var cascadeToInstantiate : Transform;
 var destroyMountainCountdown : float;
 var timer : float;
-
+var afterGrotte;
 
 function Start () {
-	
-	
+
 	//PlayerPrefs.DeleteAll();
-	
+	afterGrotte  = PlayerPrefs.GetInt("afterGrotte");
 	
 	var finalS = PlayerPrefs.GetInt("FinalStep");
 	
@@ -28,13 +27,18 @@ function Start () {
 	if(bourasque == 1){
 		Destroy(GameObject.Find("ennemy container"));
 	}
-	
 	if(bourasque == 1 && finalS != 2){
 		midState();
 	}
 	else if(finalS == 2){
 		finalState();
 	}
+	
+	// scène de gauche
+	
+	if(afterGrotte == 2){
+		finalGauche();
+	} 
 }
 
 function level1D(){
@@ -64,7 +68,7 @@ function level1D(){
 			smoke.GetComponent(ParticleSystem).enableEmission = true;
 			PlayerPrefs.SetInt("activationSpike", 2);
 						
-			if(destroyMountainCountdown < 50){
+			if(destroyMountainCountdown < 20){
 				destroyMountainCountdown += Time.deltaTime;
 			}
 			else{
@@ -80,14 +84,13 @@ function level1D(){
 				Destroy(GameObject.FindWithTag("Statut"));
 				Destroy(GameObject.Find("acces_grotte(Clone)"));
 				
-				
 				if(!GameObject.Find("Cascade(Clone)")){
 					Instantiate(cascadeToInstantiate,Vector3(4.716, -1.507, 2.28), Quaternion.identity);
 				}
 				smoke.GetComponent(ParticleSystem).enableEmission = false;
 				PlayerPrefs.SetInt("activationSpike", 1);
-				PlayerPrefs.SetInt("FinalStep", 2);
 				PlayerPrefs.SetInt("setAnimation", 0);
+				PlayerPrefs.SetInt("FinalStep", 2); 
 			}
 		}
 		else{
@@ -122,6 +125,13 @@ function finalState(){
 	Destroy(GameObject.FindWithTag("Ennemy"));
 }
 
+function finalGauche(){
+	var obj = GameObject.Find("testRemplissage");
+	obj.renderer.enabled = true;
+	Destroy(GameObject.Find("trou"));
+	Instantiate(cascadeToInstantiate, Vector3(-12.72, 3.66, 3), Quaternion.identity);
+}
+
 
 function levelGrotte(){
 	if(GameObject.FindWithTag("EmptyGem")){
@@ -129,20 +139,55 @@ function levelGrotte(){
 	}
 }
 
+function levelGauche(){
+
+	var particleObj = GameObject.FindWithTag("Particle");
+
+	// get a value to pass here...
+	if(afterGrotte == 1){
+		if(timer < 20){
+			//shake();
+			Destroy(GameObject.Find("trou"));
+			PlayerPrefs.SetInt("activationSpike", 2);
+			// get the animation and play it
+			particleObj.GetComponent(ParticleSystem).enableEmission = true;
+
+			if(timer > 10){
+				var obj = GameObject.Find("testRemplissage");
+				obj.renderer.enabled = true;
+				obj.GetComponent(Animator).enabled = true;
+			}
+			// get the animation of the water and play it too... 
+			timer += Time.deltaTime;
+		}
+		else{
+			// then after Instantitate a new water and don't forget to destroy the old one and it should be ok niggas.
+			if(!GameObject.Find("water(Clone)")){
+				Instantiate(cascadeToInstantiate, Vector3(-12.72, 3.66, 3), Quaternion.identity);
+				particleObj.GetComponent(ParticleSystem).enableEmission = false;
+			}
+			PlayerPrefs.SetInt("activationSpike", 1);
+			// passer a un état fixe
+			PlayerPrefs.SetInt("afterGrotte", 2);
+		}
+	}
+}
+
 function Update () {
 	
 	if(Application.loadedLevelName == "level1_d"){
-			level1D();
-			
+		level1D();
 	}
-	else if(Application.loadedLevelName == "level1_d_grotte"){
-			levelGrotte();
+	else if(Application.loadedLevelName == "level1_d_grotte" || Application.loadedLevelName == "level1_gauche_grotte"){
+		levelGrotte();
+	}
+	else if(Application.loadedLevelName == "level1 gauche"){
+		levelGauche();	
 	}
 }
 
 function shake(){
 	var player = GameObject.FindWithTag("Player");
-	
 	randomValueX = Random.Range(randommin, randomMax);
 	randomValueY = Random.Range(randommin, randomMax);
 	var camera = GameObject.FindWithTag("SecondCamera");
