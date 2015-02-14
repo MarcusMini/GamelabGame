@@ -9,7 +9,9 @@ var downstair : float;
 
 function Start(){
 	
+	//PlayerPrefs.DeleteAll();
 	var lastsceneload = PlayerPrefs.GetString("loadLevel");
+	Debug.Log(lastsceneload);
 	health = 5.0;
 	money = 0;
 	fadeInactivate = false;
@@ -47,9 +49,19 @@ function Start(){
 			transform.position = Vector3(2.358721, -2.379415, 0);
 		break;
 		case "level1 gauche":
-			transform.position = Vector3(-1.89, 0.12, 2.45);
+			if(Application.loadedLevelName == "level1_gauche_grotte"){
+				transform.position = Vector3(-0.925, 1.783, 2.45);
+			}
+			else{
+				transform.position = Vector3(-1.89, 0.12, 2.45);
+			}
+		break;
+		case "level1_gauche_grote":
+			transform.position = Vector3(-12.74, 2.59,-1.57);
 		break;
 	}
+	
+	Tracer(false);
 }
 
 function OnCollisionEnter2D(col : Collision2D){
@@ -65,8 +77,13 @@ function OnCollisionEnter2D(col : Collision2D){
 		anim.GetComponent(Animator).enabled = true;
 		anim.GetComponent(Animator).speed =1 ;
 	}
-	if(health <= 0){
-		Destroy(this.gameObject);
+	else if(col.gameObject.name == "echellegrotte"){
+		setTransition("level1_gauche_grote","level1 gauche");
+		PlayerPrefs.SetInt("Barriere", 0);
+		
+		if(GameObject.FindWithTag("EmptyGem")){
+			PlayerPrefs.SetInt("afterGrotte", 1);
+		}
 	}
 }
 
@@ -78,7 +95,7 @@ function OnTriggerEnter2D(coll : Collider2D){
 	
 	if(coll.gameObject.name != "Chemin" && coll.gameObject.name && "Coeur plein(Clone)" && coll.gameObject.name != "Pièce Mercure(Clone)" && coll.gameObject
 	.name != "teleporteur_level"){
-		 Debug.Log("ha");
+//		 Debug.Log("ha");
 		 var lightscript = GameObject.Find("Directional light");
 		 // get the value
 		 var timer = lightscript.GetComponent(lightScript).timer2;
@@ -129,9 +146,15 @@ function OnTriggerEnter2D(coll : Collider2D){
 		break;
 		case "gradientGG":
 			setTransition("level1_d_grotte", "level1_d");
+			if(GameObject.FindWithTag("EmptyGem")){
+				PlayerPrefs.SetInt("setAnimation", 1);
+			}
 		break;
 		case "gradientLG":
 			setTransition("level1 gauche", "Level1_c");
+		break;
+		case "trou_gauche":
+			setTransition("level1 gauche", "level1_gauche_grotte");
 		break;
 		case "Chemin" :
 			if(position == 0 || position == 3){
@@ -149,6 +172,9 @@ function OnTriggerEnter2D(coll : Collider2D){
 				transform.position.y -= 0.02;
 			}
 		break;
+		/*case "testRemplissage":
+			Tracer(true);
+		break;*/
 	}	
 }
 
@@ -165,13 +191,54 @@ function OnTriggerExit2D(objet : Collider2D){
 			transform.position.y -= 0.02;	
 		}
 	}
+	else if(objet.gameObject.name == "testRemplissage"){
+		Tracer(false);
+	}
 }
 
+function OnTriggerStay2D(object : Collider2D){
+	if(object.gameObject.name == "testRemplissage"){
+		Tracer(true);
+	}
+}
+
+// collision de spike avec l'echelle
+
 function setTransition(oldScene : String, NewSceneLoad : String){
+	//Debug.Log(NewSceneLoad);
 	fadeInactivate = true;
 	yield WaitForSeconds(2);
 	PlayerPrefs.SetString("loadLevel", oldScene);
 	Application.LoadLevel(NewSceneLoad);
 }
 
+function Tracer(activation : boolean){
+	var tracer = GameObject.Find("trail");
+	var place = GameObject.Find("testRemplissage");
+	
+	var show = place.GetComponent(SpriteRenderer).enabled;
+	
+	Debug.Log("la place eau est " +show);
+	
+	if(activation){
+		if(show){
+			tracer.GetComponent(TrailRenderer).enabled = true;
+		}
+		else{
+			tracer.GetComponent(TrailRenderer).enabled = false;
+		}
+	}
+	else{
+		tracer.GetComponent(TrailRenderer).enabled = false;
+	}
+	
+}
+
+function Update(){
+	if(health < 0){
+		Destroy(this.gameObject);
+	}
+	
+	
+}
 
