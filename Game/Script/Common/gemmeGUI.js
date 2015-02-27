@@ -28,14 +28,14 @@ function OnGUI(){
 	var bouton = ["defense", "force", "vision", "vitesse"];
 	var background = ["defenseBcg", "forceBcg", "visionBcg", "vitesseBcg"];
 	var molecule = ["forceMolecule", "visionMolecule", "vitesseMolecule", "defenseMolecule"];
-	// texte 8
-	var texte = ["Chacha", "Chachou", "Chama", "Chasi", "Charlotte", "Chakra", "Maya", "Gros bebe doudouce", "sss"];
+	//var texte = ["Chacha", "Chachou", "Chama", "Chasi", "Charlotte", "Chakra", "Maya", "Gros bebe doudouce", "sss"];
 	var checkID = ["checkBleu", "check", "checkVert", "checkJaune"];
 	
 	// function which display the current element.
 	// put an id..
-	var DisplayText = function(tab : String[], c : int, ameliorationID : String, ptyState : int){
-			GUI.Label(Rect(Screen.width - 250,300,200,200), tab[c]);
+	var DisplayText = function(c : int, ameliorationID : String, ptyState : int){
+			var valueLabel = getLabelData(c, ameliorationID);
+			GUI.Label(Rect(Screen.width - 250,300,200,200), valueLabel);
 			if(ptyState <= c){
 				if(GUI.Button(Rect(Screen.width - 200, 500, 120,70), Resources.Load("bouton") as Texture2D, customGuiStyle)){
 					step(3);
@@ -46,6 +46,7 @@ function OnGUI(){
 	
 	
 	var createElement = function(loopX : int[], loopY : int[], level : int, idColor : int, ptyName : String){
+		PlayerPrefs.SetString("ptyName", ptyName);
 		for(var i : int = 0; i < loopX.length; i++){
 				if(i < level){
 					texture = Resources.Load(checkID[idColor]) as Texture2D;
@@ -56,9 +57,8 @@ function OnGUI(){
 			
 			if(GUI.Button(Rect(loopX[i], loopY[i], 17,17), texture, customGuiStyle)){
 				PlayerPrefs.SetInt("texteValue", i);
-				PlayerPrefs.SetString("ptyName", ptyName);
 				PlayerPrefs.SetInt("ptyState", level);
-				GUI.Label(Rect(Screen.width - 250,300,200,200), texte[i]);
+				//GUI.Label(Rect(Screen.width - 250,300,200,200), texte[i]);
 				step(2);
 			}
 		}
@@ -146,7 +146,7 @@ function OnGUI(){
 	// activate the gui element each frame.
 	if(EachFrame){
 		setID(PlayerPrefs.GetInt("tabvalue"));
-		DisplayText(texte, PlayerPrefs.GetInt("texteValue"), PlayerPrefs.GetString("ptyName"), PlayerPrefs.GetInt("ptyState"));
+		DisplayText( PlayerPrefs.GetInt("texteValue"), PlayerPrefs.GetString("ptyName"), PlayerPrefs.GetInt("ptyState"));
 	}
 }
 
@@ -168,6 +168,12 @@ function triggerAnim(){
 		BasSpriteComponent.runtimeAnimatorController = Resources.Load("Bas 2") as RuntimeAnimatorController;
 		yield WaitForSeconds(0.1);
 		BasSpriteComponent.enabled = false;
+}
+
+function getLabelData(index : int, skills : String){
+	var valeur = this.gameObject.GetComponent(textData).init(index, skills);
+	
+	return valeur;
 }
 
 function sendData(ameliorationID : int, niveau : int){
@@ -232,6 +238,3 @@ function Update () {
 	}
 }
 
-class defense {
-	
-}
