@@ -58,7 +58,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(atomeArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$500.000", customGuiStyle);
 					GUI.EndGroup();
@@ -69,7 +69,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(atomeArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric  ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric  ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$250.000", customGuiStyle);
 					GUI.EndGroup();
@@ -79,7 +79,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(atomeArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$250.000", customGuiStyle);
 					GUI.EndGroup();
@@ -89,7 +89,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(atomeArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$250.000", customGuiStyle);
 					GUI.EndGroup();	
@@ -104,7 +104,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(fioleArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$2", customGuiStyle);
 					GUI.EndGroup();
@@ -113,7 +113,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(fioleArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$5", customGuiStyle);
 					GUI.EndGroup();
@@ -122,7 +122,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(fioleArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$3", customGuiStyle);
 					GUI.EndGroup();
@@ -131,7 +131,7 @@ function OnGUI(){
 						if(GUI.Button(Rect(0,35,65,65),Resources.Load(fioleArray[0]) as Texture2D, customGuiStyle)){
 						}
 						// texte de la molécule
-						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super fucking amazing cool game, check it out !", customGuiStyle);
+						GUI.Label(Rect(75,25, 300, 500 ),"Hi there we're gamelab our member are maxime, alexis, marc, thibault, and eric ! and we make super amazing cool game, check it out !", customGuiStyle);
 						GUI.DrawTexture(Rect(75,130,200,1), hBar);
 						GUI.Label(Rect(280,125,200,50), "$200", customGuiStyle);
 					GUI.EndGroup();

@@ -11,8 +11,7 @@ function Start () {
 function fadeOut(){
 	if(fade > 0.0){
 		renderer.material.color = Color(0,0,0,fade);
-		fade = fade - 0.01;
-		yield WaitForSeconds(1);
+		fade = fade - 0.05;
 	}
 	else if(fade < 0.0){
 		renderer.material.color = Color(0,0,0,0);
@@ -23,8 +22,7 @@ function fadeIn(){
 
 	if(fade < 1.0){
 		renderer.material.color = Color(0,0,0,fade);
-		fade = fade + 0.01;
-		yield WaitForSeconds(1);
+		fade = fade + 0.05;
 	}
 	else if(fade > 1.0){
 		renderer.material.color = Color(0,0,0,1);
