@@ -1,4 +1,5 @@
-The adventure of Spike
+Spike's adventure is out ! 
+
 ===========
 
 The adventure of Spike is a 2D game made with Unity in the purpose of our Training in DUT MMI. 
@@ -21,5 +22,13 @@ And so on what's the adventure of Spike ?
 ==========
 
 Spike is a student in chemistry at University of Marne la vallée in the east of Paris, during a night his brother went to a room where is stock different chemistry component, however during this night something strange happened... and his brother was teleport to an other world. After knowing this dramatic new, Spike furious, sad decide to try by all mean to rescue his lovely brother to do that he will use his knowledge in chemistry to win against different creatures to rescue his brother. 
+
+==========
+
+Check our website !!
+
+http://spikesadventure.fr/
+
+==========
 
 
