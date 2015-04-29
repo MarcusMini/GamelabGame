@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 
 // base par marc.
 
@@ -31,8 +31,9 @@ function Start () {
 	//PlayerPrefs.DeleteAll();
 	
 	// mettre 15 lors de la publication du jeu
-	if(PlayerPrefs.GetInt("steps") < 4){
+	if(!PlayerPrefs.GetInt("gem") && !PlayerPrefs.GetInt("buyGem")){
 		PlayerPrefs.SetInt("gem",10);
+		PlayerPrefs.SetInt("buyGem", 1);
 	}
 		
 	texteAlert = "";
@@ -83,6 +84,7 @@ function OnGUI(){
 		elle prend en entrée une variable ptyState, qui correspond à l'index des niveaux de compétence déja sélectionnées.
 	*/
 	var DisplayText = function(c : int, ameliorationID : String, ptyState : int){
+	
 			
 			// On recupère le texte dans une variable valueLabel puis on affiche le texte avec GUI.Label
 			var valueLabel = getLabelData(c, ameliorationID);
@@ -107,9 +109,10 @@ function OnGUI(){
 						PlayerPrefs.SetInt("ptyState", position);
 						PlayerPrefs.SetInt("setPosition", 1);
 						PlayerPrefs.SetInt(ameliorationID, position);
+						PlayerPrefs.SetInt("texteValue", PlayerPrefs.GetInt("texteValue") + 1);
 						step(3);
 						triggerAnim();
-						audio.PlayOneShot(levelUpSon);
+						GetComponent.<AudioSource>().PlayOneShot(levelUpSon);
 						sendData(ameliorationID, ptyState);
 						var money = PlayerPrefs.GetInt("gem") - PlayerPrefs.GetInt("price");
 						PlayerPrefs.SetInt("gem", money);
@@ -168,6 +171,9 @@ function OnGUI(){
 	var vision = function(){
 		var positionVisionX = [45,92,157,195,225,255];
 		var positionVisionY = [137,165,107,133,133,107];
+		
+		// only use once
+		PlayerPrefs.SetInt("texteValue", PlayerPrefs.GetInt("ameliorationID"));
 		
 		GUI.BeginGroup(Rect(Screen.width - 300,0,700,Screen.height), Resources.Load(background[2]) as Texture2D);
 			GUI.DrawTexture(Rect(45,50,220,180), Resources.Load(molecule[1]) as Texture2D);
@@ -238,6 +244,7 @@ function OnGUI(){
 		setID(PlayerPrefs.GetInt("tabvalue"));
 		DisplayText( PlayerPrefs.GetInt("texteValue"), PlayerPrefs.GetString("ptyName"), PlayerPrefs.GetInt("ptyState"));
 		errorGUI(texteAlert);
+		
 	}
 }
 
@@ -371,8 +378,8 @@ function sendData(ameliorationID : String, niveau : int){
 	if(niveau == 6){
 			col.score = col.score + 10000;
 		}
-		PlayerPrefs.SetInt("range", niveau*2);
-		Debug.Log("niveau lumiere "+niveau*2);
+		PlayerPrefs.SetInt("range", niveau*1.5);
+		Debug.Log("niveau lumiere "+niveau*1.5);
 		// vision
 	}
 	else{
@@ -422,6 +429,7 @@ function sendData(ameliorationID : String, niveau : int){
 
 // fonction appeler chaque frame
 function Update () {
+	Debug.Log(PlayerPrefs.GetInt("steps"));
 	Debug.Log("health "+PlayerPrefs.GetFloat("Health"));
 	// elle controle le zoom de la camera
 	
@@ -475,6 +483,8 @@ function Update () {
 		}
 	}
 	
+	
+	Debug.Log(PlayerPrefs.GetInt("ameliorationID"));
 	
 }
 
